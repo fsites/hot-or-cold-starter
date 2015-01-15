@@ -42,23 +42,24 @@ $(document).ready(function(){
 
     /*Guess button runs feedback function*/
     /*NOT AFFECTING REFRESH*/
-    $('#guessButton').click(function() {
-      validGuess();
-      console.log('guess clicked');
-      return false;
+    var feedback = $('#guessButton').click(function() {
+        validGuess();
+        console.log('guess clicked');
+        return false;
     });
+
 
 });
 
 //Variables
-var userGuess = +document.getElementById("userGuess");
+var userGuess = document.getElementById(+'userGuess');
 
 
 /*Verify guess is valid number*/ 
 /*NOT AFFECTING REFRESH*/
 var validGuess = function() {
-  if (userGuess >= 1.0 && userGuess <=100.0) 
-    console.log("valid number");
+  if ((userGuess >= 1) && (userGuess <=100)) 
+    console.log(userGuess);
   else
     alert("Please enter a valid number between 1-100");
 };
