@@ -38,31 +38,37 @@ $(document).ready(function(){
       $("#feedback").replaceWith('<h2 id="feedback">' + 'Make your Guess!' + '</h2>');
       numGen();
       console.log(numGen());
-      console.log('new clicked');
+    });
+
+    /*Guess button runs feedback function*/
+    /*NOT AFFECTING REFRESH*/
+    $('#guessButton').click(function() {
+      validGuess();
+      console.log('guess clicked');
+      return false;
     });
 
 });
 
 //Variables
-var userGuess = document.getElementById("userGuess");
+var userGuess = +document.getElementById("userGuess");
 
 
-/*Verify guess is valid number*/
-var validGuess = function(userGuess) {
-  if(userGuess >= 1 && userGuess <=100)
-    return false;
+/*Verify guess is valid number*/ 
+/*NOT AFFECTING REFRESH*/
+var validGuess = function() {
+  if (userGuess >= 1.0 && userGuess <=100.0) 
+    console.log("valid number");
   else
     alert("Please enter a valid number between 1-100");
 };
 
-/*Guess button runs feedback function*/
-var guess = function() {
-  $('#guessButton').click(validGuess);
-    console.log('guess clicked');
-    return false;
-};
 
-
+/*NOT AFFECTING REFRESH
+var stopRefresh = function() {
+  $('#userGuess').click();
+  return false;
+}*/
 
 
 
