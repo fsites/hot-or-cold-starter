@@ -12,8 +12,8 @@ $(document).ready(function(){
   		$(".overlay").fadeOut(1000);
   	});
 
-    //Variables
-    var guess = document.getElementById('userGuess');
+    //Initial Variables
+    var userInput = $('#userGuess').val();
     var userGuessClone = $("#userGuess").clone();
 
 
@@ -23,23 +23,13 @@ $(document).ready(function(){
     };
 
     /*Load random number on page refresh*/
-    numGen();
-    console.log(numGen());
-
-    /*Guess button VERFIES validy, APPENDS to list,
-    runs FEEDBACK, ADDS to COUNTER*/
-    var gameExecute = $('#guessButton').click(function() {
-        validGuess(); /*not working will use as if 
-        statement before running other functions*/
-        guessedNumbers();
-        counter();
-        console.log('guess clicked');
-        return false;
-    });
+    var target = numGen();
+    console.log(target);
 
     /*VERIFIES guess is valid number*/
     var validGuess = function() {
-      if ((+guess >= 1) && (+guess <=100)) {
+      console.log(userInput);
+      if ((userInput >= 1) && (userInput <=100)) {
         return true;
       }
       else
@@ -50,6 +40,21 @@ $(document).ready(function(){
     var guessedNumbers = function() {
       $('#guessList').append('<li>' + userGuess + '</li>');
     };
+
+
+    /*Guess button VERFIES validity, APPENDS to list,
+    runs FEEDBACK, ADDS to COUNTER*/
+    var gameExecute = $('#guessButton').click(function() {
+        guessedNumbers();
+        counter();
+        console.log('guess clicked');
+        return false;
+    });
+
+    /*COUNTER Function*/
+    var counter = function() {
+        $('#count').html(function(i, value) {return+value+1});
+    }
 
   	/*Named function to find difference*/
     var difference =  undefined//placeholder
@@ -87,11 +92,6 @@ $(document).ready(function(){
           + '</h2');
     };
 
-
-  	/*COUNTER Function*/
-    var counter = function() {
-        $('#count').html(function(i, value) {return+value+1});
-    }
 
     /*Create newGame function to start a new game*/
     var newGame = $('.new').click(function() {
