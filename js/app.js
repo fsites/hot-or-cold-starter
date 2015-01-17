@@ -1,17 +1,6 @@
 
 $(document).ready(function(){
 
-	 /*--- Display information modal box ---*/
-  	$(".what").click(function(){
-    	$(".overlay").fadeIn(1000);
-
-  	});
-
-  	/*--- Hide information modal box ---*/
-  	$("a.close").click(function(){
-  		$(".overlay").fadeOut(1000);
-  	});
-
 /*VARIABLES*/
     var generatedNumber = 0;
     var userGuess = 0;
@@ -19,25 +8,40 @@ $(document).ready(function(){
     var userGuessClone = $("#userGuess").clone();
 
 
+
 /*NUMBER GENERATOR between 1-100*/
     var numGen = function() {
       generatedNumber = Math.floor((Math.random() * 100) + 1);
       console.log("generated number is " + generatedNumber)
     };
-
       /*Load random number on page refresh*/
       numGen();
+
 
 
 /*User Input*/
     $("form").submit(function(event){
       userGuess = $('#userGuess').val();
       validGuess();
+      $('#userGuess').val('');
       return false;
     });
 
+
+
+/*COUNTER Function*/
+    var counter = function() {
+        $('#count').text(guessCount);
+    }
+
+
 /*DIFFERENCE between guess and input*/
-    var difference = Math.abs(generatedNumber - userGuess);
+    var differenceFunc = function(generatedNumber, userGuess){
+     return Math.abs(generatedNumber - userGuess);
+    }
+
+    var difference = differenceFunc(generatedNumber, userGuess);
+
 
 
 /*VERIFIES and APPENDs guess if valid number*/
@@ -45,18 +49,15 @@ $(document).ready(function(){
       if ((+userGuess >= 1) && (+userGuess <=100)) {
         console.log('user guess is ' + userGuess);
         $('#guessList').append('<li>' + userGuess + '</li>');
+        guessCount++;
         counter();
+        differenceFunc();
         feedback();
       }
       else
         alert("Please enter a valid number between 1-100");
     };
 
-
-/*COUNTER Function*/
-    var counter = function() {
-        $('#count').text(guessCount);
-    }
 
   	
 /*FEEDBACK Function*/
@@ -83,13 +84,28 @@ $(document).ready(function(){
     };
 
 
+
 /*NEW GAME function*/
     var newGame = $('.new').click(function() {
       $("#guessList li").remove();
       $("#userGuess").replaceWith(userGuessClone);
       $("#feedback").replaceWith('<h2 id="feedback">' + 'Make your Guess!' + '</h2>');
       guessCount = 0;
+      counter();
       numGen();
+    });
+
+
+
+   /*--- Display information modal box ---*/
+    $(".what").click(function(){
+      $(".overlay").fadeIn(1000);
+
+    });
+
+    /*--- Hide information modal box ---*/
+    $("a.close").click(function(){
+      $(".overlay").fadeOut(1000);
     });
 
 });
