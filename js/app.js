@@ -1,6 +1,6 @@
 
 $(document).ready(function(){
-	
+
 	/*--- Display information modal box ---*/
   	$(".what").click(function(){
     	$(".overlay").fadeIn(1000);
@@ -12,21 +12,32 @@ $(document).ready(function(){
   		$(".overlay").fadeOut(1000);
   	});
 
-    //Initial Variables
-    var userInput = $('#userGuess').val();
+/*VARIABLES*/
+    var generatedNumber = 0;
+    var userGuess = 0;
+    var guessCount = 0;
     var userGuessClone = $("#userGuess").clone();
 
 
-    /*Number Generator between 1-100*/
+/*Number Generator between 1-100*/
     var numGen = function() {
-      return Math.floor((Math.random() * 100) + 1);
+      generatedNumber = Math.floor((Math.random() * 100) + 1);
+      console.log("generated number = " + generatedNumber)
     };
 
-    /*Load random number on page refresh*/
-    var target = numGen();
-    console.log(target);
+      /*Load random number on page refresh*/
+      numGen();
 
-    /*VERIFIES guess is valid number*/
+    /*Finds the difference between guess and input*/
+    var difference =  Math.abs(numGen - userGuess);
+
+/*User Input*/
+    $("form").submit(function(event){
+      userGuess = $('#userGuess').val();
+      validGuess();
+    })
+
+/*VERIFIES guess is valid number*/
     var validGuess = function() {
       console.log(userInput);
       if ((userInput >= 1) && (userInput <=100)) {
@@ -36,9 +47,9 @@ $(document).ready(function(){
         alert("Please enter a valid number between 1-100");
     };
 
-    /*APPENDS guessed numbers to list*/
+/*APPENDS guessed numbers to list*/
     var guessedNumbers = function() {
-      $('#guessList').append('<li>' + userGuess + '</li>');
+      $('#guessList').append('<li>' + userInput + '</li>');
     };
 
 
@@ -48,6 +59,7 @@ $(document).ready(function(){
         guessedNumbers();
         counter();
         console.log('guess clicked');
+        console.log(userInput);
         return false;
     });
 
@@ -56,9 +68,7 @@ $(document).ready(function(){
         $('#count').html(function(i, value) {return+value+1});
     }
 
-  	/*Named function to find difference*/
-    var difference =  undefined//placeholder
-
+  	
     /*FEEDBACK Function*/
     var feedback = function() {
       if (difference >= 50) {
@@ -104,6 +114,8 @@ $(document).ready(function(){
     });
 
 });
+
+
 
 
 
