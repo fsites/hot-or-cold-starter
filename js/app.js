@@ -1,7 +1,7 @@
 
 $(document).ready(function(){
 
-	/*--- Display information modal box ---*/
+	 /*--- Display information modal box ---*/
   	$(".what").click(function(){
     	$(".overlay").fadeIn(1000);
 
@@ -19,98 +19,77 @@ $(document).ready(function(){
     var userGuessClone = $("#userGuess").clone();
 
 
-/*Number Generator between 1-100*/
+/*NUMBER GENERATOR between 1-100*/
     var numGen = function() {
       generatedNumber = Math.floor((Math.random() * 100) + 1);
-      console.log("generated number = " + generatedNumber)
+      console.log("generated number is " + generatedNumber)
     };
 
       /*Load random number on page refresh*/
       numGen();
 
-    /*Finds the difference between guess and input*/
-    var difference =  Math.abs(numGen - userGuess);
 
 /*User Input*/
     $("form").submit(function(event){
       userGuess = $('#userGuess').val();
       validGuess();
-    })
+      return false;
+    });
 
-/*VERIFIES guess is valid number*/
+/*DIFFERENCE between guess and input*/
+    var difference = Math.abs(generatedNumber - userGuess);
+
+
+/*VERIFIES and APPENDs guess if valid number*/
     var validGuess = function() {
-      console.log(userInput);
-      if ((userInput >= 1) && (userInput <=100)) {
-        return true;
+      if ((+userGuess >= 1) && (+userGuess <=100)) {
+        console.log('user guess is ' + userGuess);
+        $('#guessList').append('<li>' + userGuess + '</li>');
+        counter();
+        feedback();
       }
       else
         alert("Please enter a valid number between 1-100");
     };
 
-/*APPENDS guessed numbers to list*/
-    var guessedNumbers = function() {
-      $('#guessList').append('<li>' + userInput + '</li>');
-    };
 
-
-    /*Guess button VERFIES validity, APPENDS to list,
-    runs FEEDBACK, ADDS to COUNTER*/
-    var gameExecute = $('#guessButton').click(function() {
-        guessedNumbers();
-        counter();
-        console.log('guess clicked');
-        console.log(userInput);
-        return false;
-    });
-
-    /*COUNTER Function*/
+/*COUNTER Function*/
     var counter = function() {
-        $('#count').html(function(i, value) {return+value+1});
+        $('#count').text(guessCount);
     }
 
   	
-    /*FEEDBACK Function*/
+/*FEEDBACK Function*/
     var feedback = function() {
+      console.log('difference is ' + difference);
       if (difference >= 50) {
-        $('#feedback').replaceWith('<h2 id="feedback">' 
-          + 'Very Cold'
-          + '</h2');
+        $('#feedback').text('Very Cold');
       }
       else if ((difference <= 49) && (difference >=26)) {
-        $('#feedback').replaceWith('<h2 id="feedback">' 
-          + 'Cold'
-          + '</h2');
+        $('#feedback').text('Cold');
       }
       else if ((difference <= 25) && (difference >=11)) {
-        $('#feedback').replaceWith('<h2 id="feedback">' 
-          + 'Warmer'
-          + '</h2');
+        $('#feedback').text('Warmer');
       }
       else if ((difference <= 10) && (difference >=5)) {
-        $('#feedback').replaceWith('<h2 id="feedback">' 
-          + 'Hot'
-          + '</h2');
+        $('#feedback').text('Getting Hot');
       }
       else if ((difference <= 4) && (difference >=1)) {
-        $('#feedback').replaceWith('<h2 id="feedback">' 
-          + 'VERY Hot'
-          + '</h2');
+        $('#feedback').text('Super Hot');
       }
-      else 
-        $('#feedback').replaceWith('<h2 id="feedback">' 
-          + 'YOU GOT IT!'
-          + '</h2');
+      else if (userGuess / generatedNumber === 1) {
+        $('#feedback').text('WIN');
+      } else {}
     };
 
 
-    /*Create newGame function to start a new game*/
+/*NEW GAME function*/
     var newGame = $('.new').click(function() {
       $("#guessList li").remove();
       $("#userGuess").replaceWith(userGuessClone);
-      $("#count").replaceWith('<span id="count">' + 0 + '</span>');
       $("#feedback").replaceWith('<h2 id="feedback">' + 'Make your Guess!' + '</h2>');
+      guessCount = 0;
       numGen();
-      console.log(numGen());
     });
 
 });
